@@ -2,15 +2,14 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:hive/hive.dart';
 
 class ExampleWidgetModel {
-  ExampleWidgetModel() {
-    Hive.initFlutter();
-    Hive.registerAdapter(UserAdapter());
-  }
   void doSome() async {
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserAdapter());
+    }
     var box = await Hive.openBox<User>('testBox');
-    final user = User('Bill', 32);
-    await box.add(user);
-    print(box.values);
+    final user = box.getAt(0);
+    print(user);
+    box.close();
   }
 }
 
