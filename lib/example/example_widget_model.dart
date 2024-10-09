@@ -7,6 +7,7 @@ class ExampleWidgetModel {
   }
   void doSome() async {
     var box = await Hive.openBox('testBox');
+    await box.deleteAt(0);
     print(box.keys);
     print(box.values);
     box.close();
