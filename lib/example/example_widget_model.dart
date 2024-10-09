@@ -9,7 +9,10 @@ class ExampleWidgetModel {
     var box = await Hive.openBox('test Box');
     await box.put('friends', ['Bill', 'Alice', 'John']);
     final list = box.get('friends') as List<String>?;
+    final index = await box.add(['Bill', 'Alice', 'John']);
+    final values = box.getAt(index); 
+    print(index);
+    print(values);
     await box.close();
-    print(list);
   }
 }
