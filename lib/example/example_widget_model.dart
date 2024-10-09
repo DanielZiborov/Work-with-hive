@@ -1,0 +1,4 @@
+class ExampleWidgetModel {
+  
+  void doSome(){}
+}
