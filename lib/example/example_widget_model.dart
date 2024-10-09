@@ -13,5 +13,6 @@ class ExampleWidgetModel {
     print(name);
     final age = box.get('age') as int?;
     print(age);
+    await box.close();
   }
 }
