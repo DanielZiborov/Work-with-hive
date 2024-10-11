@@ -26,8 +26,10 @@ class ExampleWidgetModel {
     final user = box.get('user');
 
     print(user);
-
+    
+    await box.compact();
     box.close();
+    await petBox.compact();
     petBox.close();
   }
 }
