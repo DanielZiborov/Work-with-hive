@@ -17,8 +17,7 @@ class ExampleWidgetModel {
     // print(box.values);
 
     final user = box.get('Ivan');
-    user?.age = 20;
-    await user?.save();
+    await user?.delete();
     print(box.get('Ivan'));
     box.close();
   }
