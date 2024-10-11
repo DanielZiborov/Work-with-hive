@@ -10,24 +10,25 @@ class ExampleWidgetModel {
     }
 
     var box = await Hive.openBox<User>('testBox');
-    final index = await box.add(User('Daniel',1000,'Zib'));
-    final user = await box.getAt(index);
-    print(user);
-    print(box.keys);
-    print(box.values);
+    // final index = await box.add(User('Daniel', 1000, 'Zib'));
+    // final user = await box.getAt(index);
+    // print(user);
+    // print(box.keys);
+    // print(box.values);
+    final user = User('Ivan', 54);
+    await box.put('Ivan', user);
+    print(box.get('Ivan'));
     box.close();
   }
 }
 
 @HiveType(typeId: 0)
-class User {
+class User extends HiveObject {
   @HiveField(0)
   String name;
   @HiveField(1)
   int age;
-  @HiveField(2)
-  String? surname;
-  User(this.name, this.age,this.surname);
+  User(this.name, this.age);
   @override
-  String toString() => 'Name: $name Age: $age Surname: $surname';
+  String toString() => 'Name: $name Age: $age';
 }
