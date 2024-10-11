@@ -33,3 +33,12 @@ class User extends HiveObject {
   @override
   String toString() => 'Name: $name Age: $age';
 }
+
+@HiveType(typeId: 0)
+class Pat extends HiveObject {
+  @HiveField(0)
+  String name;
+  Pat(this.name);
+  @override
+  String toString() => 'Name: $name';
+}
