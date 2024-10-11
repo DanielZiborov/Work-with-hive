@@ -10,8 +10,8 @@ class ExampleWidgetModel {
     }
 
     var box = await Hive.openBox<User>('testBox');
-    final index = await box.add(User('Daniel',1000));
-    final user = await box.getAt(0);
+    final index = await box.add(User('Daniel',1000,'Zib'));
+    final user = await box.getAt(index);
     print(user);
     print(box.keys);
     print(box.values);
@@ -25,7 +25,9 @@ class User {
   String name;
   @HiveField(1)
   int age;
-  User(this.name, this.age);
+  @HiveField(2)
+  String? surname;
+  User(this.name, this.age,this.surname);
   @override
-  String toString() => 'Name: $name Age: $age';
+  String toString() => 'Name: $name Age: $age Surname: $surname';
 }
