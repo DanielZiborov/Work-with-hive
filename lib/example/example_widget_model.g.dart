@@ -19,17 +19,20 @@ class UserAdapter extends TypeAdapter<User> {
     return User(
       fields[0] as String,
       fields[1] as int,
+      (fields[3] as HiveList?)?.castHiveList(),
     );
   }
 
   @override
   void write(BinaryWriter writer, User obj) {
     writer
-      ..writeByte(2)
+      ..writeByte(3)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
-      ..write(obj.age);
+      ..write(obj.age)
+      ..writeByte(3)
+      ..write(obj.pets);
   }
 
   @override
@@ -45,7 +48,7 @@ class UserAdapter extends TypeAdapter<User> {
 
 class PetAdapter extends TypeAdapter<Pet> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   Pet read(BinaryReader reader) {
