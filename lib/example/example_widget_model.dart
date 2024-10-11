@@ -35,10 +35,10 @@ class User extends HiveObject {
 }
 
 @HiveType(typeId: 0)
-class Pat extends HiveObject {
+class Pet extends HiveObject {
   @HiveField(0)
   String name;
-  Pat(this.name);
+  Pet(this.name);
   @override
   String toString() => 'Name: $name';
 }
