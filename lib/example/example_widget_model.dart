@@ -15,9 +15,12 @@ class ExampleWidgetModel {
     // print(user);
     // print(box.keys);
     // print(box.values);
-    final user = User('Ivan', 54);
-    await box.put('Ivan', user);
-    print(box.get('Ivan'));
+
+    final user = box.get('Ivan');
+    if (user != null) {
+      user.age = 12;
+      await box.put('Ivan', user);
+    }
     box.close();
   }
 }
