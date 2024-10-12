@@ -13,15 +13,19 @@ class ExampleWidgetModel {
       Hive.registerAdapter(UserAdapter());
     }
     userBox = Hive.openBox<User>('user_box');
+    userBox?.then(
+      (box) {
+        box.listenable().addListener(() {
+          print(box.length);
+        });
+      },
+    );
   }
 
   void doSome() async {
     final box = await userBox;
     final user = User('Ivan', 20, null);
     await box?.add(user);
-
-    await box?.compact();
-    await box?.close();
   }
 }
 

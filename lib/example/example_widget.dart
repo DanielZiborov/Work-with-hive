@@ -15,9 +15,17 @@ class _ExampleWidgetState extends State<ExampleWidget> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child: ElevatedButton(
-            onPressed: model.doSome,
-            child: const Text("Press me"),
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: model.setUp,
+                child: const Text("Tune"),
+              ),
+              ElevatedButton(
+                onPressed: model.doSome,
+                child: const Text("Add"),
+              ),
+            ],
           ),
         ),
       ),
