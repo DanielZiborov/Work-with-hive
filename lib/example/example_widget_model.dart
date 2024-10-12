@@ -1,8 +1,5 @@
-import 'dart:convert';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:hive/hive.dart';
 
 part 'example_widget_model.g.dart';
 
@@ -16,7 +13,7 @@ class ExampleWidgetModel {
     userBox?.then(
       (box) {
         box.listenable().addListener(() {
-          print(box.length);
+          print(box.values);
         });
       },
     );
