@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:hive/hive.dart';
 
@@ -5,32 +8,23 @@ part 'example_widget_model.g.dart';
 
 class ExampleWidgetModel {
   void doSome() async {
-    if (!Hive.isAdapterRegistered(0)) {
-      Hive.registerAdapter(UserAdapter());
+    const secureStorage = FlutterSecureStorage();
+    final containsEncriptionKey = await secureStorage.containsKey(key: 'key');
+
+    if (!containsEncriptionKey) {
+      final key = Hive.generateSecureKey();
+      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
     }
 
-    if (!Hive.isAdapterRegistered(1)) {
-      Hive.registerAdapter(PetAdapter());
-    }
+    final key = await secureStorage.read(key: 'key');
+    final encryptionKey = base64Url.decode(key!);
 
-    var box = await Hive.openBox<User>('testBox');
-    var petBox = await Hive.openBox<Pet>('petBox');
-
-    // final pet = Pet('Alex');
-    // await petBox.add(pet);
-    // final pets = HiveList(petBox, objects: [pet]);
-    // final user = User('Ivan', 54, pets);
-    // await box.put('user',user);
-    // print(box.values);
-
-    final user = box.get('user');
-
-    print(user);
-    
-    await box.compact();
-    box.close();
-    await petBox.compact();
-    petBox.close();
+    var encreptedBox = await Hive.openBox<String>(
+      'vaultBox',
+      encryptionCipher: HiveAesCipher(encryptionKey),
+    );
+    await encreptedBox.put('secret', 'Hive is cool');
+    print(encreptedBox.get('secret'));
   }
 }
 
