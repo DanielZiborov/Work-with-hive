@@ -7,24 +7,21 @@ import 'package:hive/hive.dart';
 part 'example_widget_model.g.dart';
 
 class ExampleWidgetModel {
-  void doSome() async {
-    const secureStorage = FlutterSecureStorage();
-    final containsEncriptionKey = await secureStorage.containsKey(key: 'key');
-
-    if (!containsEncriptionKey) {
-      final key = Hive.generateSecureKey();
-      await secureStorage.write(key: 'key', value: base64UrlEncode(key));
+  Future<Box<User>>? userBox;
+  void setUp() {
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserAdapter());
     }
+    userBox = Hive.openBox<User>('user_box');
+  }
 
-    final key = await secureStorage.read(key: 'key');
-    final encryptionKey = base64Url.decode(key!);
+  void doSome() async {
+    final box = await userBox;
+    final user = User('Ivan', 20, null);
+    await box?.add(user);
 
-    var encreptedBox = await Hive.openBox<String>(
-      'vaultBox',
-      encryptionCipher: HiveAesCipher(encryptionKey),
-    );
-    await encreptedBox.put('secret', 'Hive is cool');
-    print(encreptedBox.get('secret'));
+    await box?.compact();
+    await box?.close();
   }
 }
 
